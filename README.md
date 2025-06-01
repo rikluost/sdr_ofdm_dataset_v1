@@ -41,7 +41,7 @@ OFDM parameters: FFT size 128, 102 active subcarriers, 16-QAM modulation. These 
   - Labels: `torch.float32` (bitstream, typically 0 or 1)
   - SINR: `torch.float64` (in dB)
 
-![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/pics/pics/OFDM_blockmask.png)
+![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/pics/OFDM_blockmask.png)
 Fig 1. Visualization of the TTI structure.
 
 The dataset consists of approximately 1000 TTIs, each capturing realistic channel variations, and took around 5 minutes to generate and process using SDR equipment and data processing pipelines.
@@ -50,13 +50,21 @@ The dataset consists of approximately 1000 TTIs, each capturing realistic channe
 Sample structure (per TTI):
 
 ┌─────────────────────────────┐
+
 │  pdsch_iq: [14, 128]        │  <-- Full DFT output (with DC, offsets)
+
 │    ├─ Used: [14, 101]       │  <-- Active subcarriers after removing offsets & DC
+
 │    └─ Pilots: [3rd symbol]  │
+
 ├─────────────────────────────┤
+
 │  labels: [1400, 4]          │  <-- QAM bits per symbol
+
 ├─────────────────────────────┤
+
 │  sinr: [1]                  │  <-- dB value
+
 └─────────────────────────────┘
 
 #### Calculations for number of elements in each field
