@@ -50,6 +50,7 @@ The dataset consists of approximately 1000 TTIs, each capturing realistic channe
 Sample structure (per TTI):
 
 ```
+
 | Component       | Shape          | Description                              |
 
 |-----------------|----------------|------------------------------------------|
@@ -67,6 +68,7 @@ Sample structure (per TTI):
 |-----------------|----------------|------------------------------------------|
 
 |   sinr          |  [1]           | Signal-to-Interference-plus-Noise Ratio (dB) |
+
 ```
 
 
