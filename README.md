@@ -28,6 +28,13 @@ Cyclic prefix: 6 samples, chosen experimentally
 Channel: Real-world fading, measured under practical indoor/outdoor conditions
 OFDM parameters: FFT size 128, 102 active subcarriers, 16-QAM modulation. These were selected experimentally to suit radio transmit license, computational restrictions and limited maximum transmit power.    
 
+Example PSD of transmitted TTI
+![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_TX.png)
+Fig 1. PSD of a transmitted TTI.
+
+Example PSD of received TTI
+![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_RX.png)
+Fig 1. VPSD of a received TTI.
 
 ## Data Description
 
@@ -43,6 +50,12 @@ OFDM parameters: FFT size 128, 102 active subcarriers, 16-QAM modulation. These 
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_blockmask.png)
 Fig 1. Visualization of the TTI structure.
+
+![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_blockmod.png)
+Fig 1. Visualization of modulated TTI transmitted.
+
+![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_block_RX.png)
+Fig 1. Visualization of received TTI.
 
 The dataset consists of approximately 1000 TTIs, each capturing realistic channel variations, and took around 5 minutes to generate and process using SDR equipment and data processing pipelines.
 
