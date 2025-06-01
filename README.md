@@ -49,23 +49,23 @@ The dataset consists of approximately 1000 TTIs, each capturing realistic channe
 ### Field Definitions
 Sample structure (per TTI):
 
-| Component       | Shape          | Description                              |
+```| Component       | Shape          | Description                              |
 
 |-----------------|----------------|------------------------------------------|
 
-| `pdsch_iq`      | `[14, 128]`    | Full DFT output (includes DC, offsets)   |
+|  pdsch_iq       | `[14, 128]`    | Full DFT output (includes DC, offsets)   |
 
-| ├─ **Used**     | `[14, 101]`    | Active subcarriers (DC & offsets removed)|
+| ├─   Used       | `[14, 101]`    | Active subcarriers (DC & offsets removed)|
 
-| └─ **Pilots**   | `[3rd symbol]` | Pilot symbols location                   |
-
-|-----------------|----------------|------------------------------------------|
-
-| **labels**      | `[1400, 4]`    | QAM bits per symbol                      |
+| └─   Pilots   | `[3rd symbol]` | Pilot symbols location                   |
 
 |-----------------|----------------|------------------------------------------|
 
-| **sinr**        | `[1]`          | Signal-to-Interference-plus-Noise Ratio (dB) |
+|   labels        | `[1400, 4]`    | QAM bits per symbol                      |
+
+|-----------------|----------------|------------------------------------------|
+
+|   sinr          | `[1]`          | Signal-to-Interference-plus-Noise Ratio (dB) |```
 
 
 #### Calculations for number of elements in each field
