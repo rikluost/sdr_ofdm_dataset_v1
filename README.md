@@ -80,20 +80,24 @@ Sample structure (per TTI):
 
 Figures illustrating transmitted and received signal PSD, as well as OFDM symbol allocation, are provided within the dataset documentation.
 
+### Power Spectral Density
+
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_TX.png)
 Fig 1. PSD of a transmitted TTI.
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_RX.png)
 Fig 2. PSD of a received TTI.
 
+### TTI Structure
+
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_blockmask.png)
-Fig 3. Visualization of the TTI structure.
+Fig 3. Visualization of the TTI structure. (Purple: unmodulated, green: pilots, yellow: DC)
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_blockmod.png)
-Fig 4. Visualization of modulated TTI transmitted.
+Fig 4. Visualization of fully populated TTI.
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_block_RX.png)
-Fig 5. Visualization of received TTI.
+Fig 5. Visualization of received TTI after over the air transmission and syncronization.
 
 
 ## Challenges
