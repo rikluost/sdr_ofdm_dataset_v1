@@ -78,7 +78,7 @@ Sample structure (per TTI):
 
 ## Dataset Visualizations
 
-Figures illustrating transmitted and received signal PSD, as well as OFDM symbol allocation, are provided within the dataset documentation.
+Figures 1 and 2 illustrate transmitted and received signal PSD. Figures 3, 4, and 5 illustrate the TTI mask, populated TTI, and received TTI after over-the-air transmission and synchronization correspondingly.
 
 ### Power Spectral Density
 
