@@ -2,7 +2,7 @@
 
 ## Abstract
 
-We introduce a measured radio channel dataset designed for training and evaluating neural network-based wireless receivers, specifically optimized for OFDM systems operating at 435 MHz. This dataset includes IQ symbols after Discrete Fourier Transform (DFT), the corresponding transmitted bitstreams (labels), and per-transmission SINR metrics. Captured in realistic indoor/outdoor non-line-of-sight conditions using Software-Defined Radio (SDR) equipment, the dataset provides essential resources for validating neural network architectures against practical channel effects.
+We introduce a measured radio channel dataset designed for training and evaluating neural network-based wireless receivers, specifically optimized for OFDM systems operating at 435 MHz. This dataset includes IQ symbols after Discrete Fourier Transform (DFT), the corresponding transmitted bitstreams (labels), and per-transmission SINR metrics. Captured in realistic indoor mostly non-line-of-sight conditions using Software-Defined Radio (SDR) equipment, the dataset provides resources for validating neural network architectures against practical channel effects.
 
 Keywords: Neural Networks, OFDM, IQ Data, Channel Measurement, SINR, Software-Defined Radio
 
@@ -15,26 +15,18 @@ Neural network-based receivers are increasingly important for robust signal demo
 Measurements were conducted using an SDR system operating at a center frequency of 435 MHz. Data acquisition involved a stationary transmitter antenna and a mobile receiver antenna moving indoors and outdoors in non-line-of-sight environments.
 
 Hardware: SDR radio moving at speed < 3 m/s
-Center frequency: 435 MHz, restricted by transmit license
-Cyclic prefix: 6 samples, chosen experimentally
+Center frequency: 435 MHz
+Cyclic prefix: 6 samples
 Channel: Real-world fading, measured under practical indoor/outdoor conditions
-OFDM parameters: FFT size 128, 102 active subcarriers, 16-QAM modulation. These were selected experimentally to suit radio transmit license, computational restrictions and limited maximum transmit power.  
+OFDM parameters: FFT size 128, 102 active subcarriers, 16-QAM modulation. 
 
-The OFDM parameters were chosen based on licensing constraints, computational feasibility, and transmit power limitations.
-
-The dataset consists of approximately 1000 TTIs, each capturing realistic channel variations, and took around 5 minutes to generate and process using SDR equipment and data processing pipelines.
-
-
+The OFDM parameters were chosen based on licensing constraints, computational feasibility, and transmit power limitations. The dataset consists of approximately 1000 TTIs, each capturing realistic channel variations, and took around 5 minutes to generate and process using SDR equipment and data processing pipelines.
 
 ## Dataset Structure 
 
 The dataset is structured as a PyTorch CustomDataset, facilitating seamless integration into deep learning workflows.
 
 - **File format:** PyTorch `.pth` file containing a pickled instance of `CustomDataset`.
-- **FFT size:** 128
-- **Number of subcarriers:** 102 (active subcarriers)
-- **DC:** is included in subcarriers, but transmitted with zeros. Needs to be removed from the IQ data
-- **OFDM offsets:** 13 subcarriers on either side of the modulated subcarriers (13+102+13 = 128)
 - **Data types:**
   - IQ data: `torch.complex64`
   - Labels: `torch.float32` (bitstream, typically 0 or 1)
@@ -55,15 +47,15 @@ Sample structure (per TTI):
 
 | ├─   Used       |  [14, 101]     | Active subcarriers (DC & offsets removed)|
 
-| └─   Pilots     |  [3rd symbol]  | Pilot symbols location                   |
+| └─   Pilots     |  3rd symbol    | indices 0, 8, 16, ..., 96, 101           |
 
 |-----------------|----------------|------------------------------------------|
 
-|   labels        |  [1400, 4]     | QAM bits per symbol                      |
+|   labels        |  [1400, 4]     | transmitted bits                         |
 
 |-----------------|----------------|------------------------------------------|
 
-|   sinr          |  [1]           | Signal-to-Interference-plus-Noise Ratio (dB) |
+|   sinr          |  [1]           | SINR (dB)                                |
 
 ```
 
