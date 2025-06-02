@@ -162,3 +162,8 @@ class CustomDataset(Dataset):
         self.labels.append(new_label) 
         self.sinr.append(new_sinr) 
 ```
+
+## References
+
+Paszke, Adam, Sam Gross, Soumith Chintala, Gregory Chanan, Edward Yang, Zachary DeVito, Zeming Lin, Alban Desmaison, Luca Antiga, and Adam Lerer. “Automatic Differentiation in PyTorch.” In NIPS-W, 2017.
+
