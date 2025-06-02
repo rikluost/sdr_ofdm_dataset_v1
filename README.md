@@ -1,42 +1,34 @@
 # Simulated Radio Channel Dataset for NN-Based Receivers
 
+## Abstract
 
+We introduce a measured radio channel dataset designed for training and evaluating neural network-based wireless receivers, specifically optimized for OFDM systems operating at 435 MHz. This dataset includes IQ symbols after Discrete Fourier Transform (DFT), the corresponding transmitted bitstreams (labels), and per-transmission SINR metrics. Captured in realistic indoor/outdoor non-line-of-sight conditions using Software-Defined Radio (SDR) equipment, the dataset provides essential resources for validating neural network architectures against practical channel effects.
 
+Keywords: Neural Networks, OFDM, IQ Data, Channel Measurement, SINR, Software-Defined Radio
 
-## Overview
+## Introduction
 
-This dataset provides measured radio channel data for training and evaluating neural network-based wireless receivers, specifically in OFDM systems at 434 MHz. It contains the received IQ symbols after DFT, the transmitted original bitstream (labels), and the SINR for each Transmission Time Interval (TTI). The data is structured as a PyTorch CustomDataset for direct use in deep learning pipelines.
+Neural network-based receivers are increasingly important for robust signal demodulation and accurate channel estimation. However, practical datasets capturing authentic mobile channel dynamics, particularly under non-line-of-sight conditions, remain scarce. This dataset addresses this gap by providing realistically measured IQ samples collected via mobile SDR antennas moving at pedestrian speeds.
 
-Typical Use Cases:
+## Measurement Setup
 
-End-to-end learning for radio receivers
-Neural-network-based demodulation and decoding
-Channel estimation and equalization research
-SINR prediction or enhancement tasks
-
-## Motivation
-
-Neural network-based receivers are gaining popularity for robust demodulation and channel estimation under realistic propagation conditions. However, there is a lack of datasets with realistic channel effects, with mobile measurements. This dataset fills that gap and provides a resource for both benchmarking and developing novel architectures.
-
-### Measurement Conditions
-
-The data was collected by having fixed transmit antenna and portable receiver antenna. The data collection was performed by walking in a building, mostly in non-line-of-sight conditions.
+Measurements were conducted using an SDR system operating at a center frequency of 435 MHz. Data acquisition involved a stationary transmitter antenna and a mobile receiver antenna moving indoors and outdoors in non-line-of-sight environments.
 
 Hardware: SDR radio moving at speed < 3 m/s
-Center frequency: 434 MHz, restricted by transmit license
+Center frequency: 435 MHz, restricted by transmit license
 Cyclic prefix: 6 samples, chosen experimentally
 Channel: Real-world fading, measured under practical indoor/outdoor conditions
-OFDM parameters: FFT size 128, 102 active subcarriers, 16-QAM modulation. These were selected experimentally to suit radio transmit license, computational restrictions and limited maximum transmit power.    
+OFDM parameters: FFT size 128, 102 active subcarriers, 16-QAM modulation. These were selected experimentally to suit radio transmit license, computational restrictions and limited maximum transmit power.  
 
-Example PSD of transmitted TTI
-![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_TX.png)
-Fig 1. PSD of a transmitted TTI.
+The OFDM parameters were chosen based on licensing constraints, computational feasibility, and transmit power limitations.
 
-Example PSD of received TTI
-![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_RX.png)
-Fig 1. VPSD of a received TTI.
+The dataset consists of approximately 1000 TTIs, each capturing realistic channel variations, and took around 5 minutes to generate and process using SDR equipment and data processing pipelines.
 
-## Data Description
+
+
+## Dataset Structure 
+
+The dataset is structured as a PyTorch CustomDataset, facilitating seamless integration into deep learning workflows.
 
 - **File format:** PyTorch `.pth` file containing a pickled instance of `CustomDataset`.
 - **FFT size:** 128
@@ -48,16 +40,7 @@ Fig 1. VPSD of a received TTI.
   - Labels: `torch.float32` (bitstream, typically 0 or 1)
   - SINR: `torch.float64` (in dB)
 
-![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_blockmask.png)
-Fig 1. Visualization of the TTI structure.
 
-![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_blockmod.png)
-Fig 1. Visualization of modulated TTI transmitted.
-
-![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_block_RX.png)
-Fig 1. Visualization of received TTI.
-
-The dataset consists of approximately 1000 TTIs, each capturing realistic channel variations, and took around 5 minutes to generate and process using SDR equipment and data processing pipelines.
 
 ### Field Definitions
 Sample structure (per TTI):
@@ -101,13 +84,33 @@ Sample structure (per TTI):
 - Pilots are placed on every 8th subcarrier, **plus the last subcarrier (index 101) is always included as a pilot** for full-band coverage.  
   - i.e. pilot indices are: 0, 8, 16, ..., 96, 101
 
+## Dataset Visualizations
+
+Figures illustrating transmitted and received signal PSD, as well as OFDM symbol allocation, are provided within the dataset documentation.
+
+![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_TX.png)
+Fig 1. PSD of a transmitted TTI.
+
+![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_RX.png)
+Fig 2. PSD of a received TTI.
+
+![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_blockmask.png)
+Fig 3. Visualization of the TTI structure.
+
+![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_blockmod.png)
+Fig 4. Visualization of modulated TTI transmitted.
+
+![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_block_RX.png)
+Fig 5. Visualization of received TTI.
+
+
 ## Challenges
 
 Key challenges during dataset creation included precise synchronization of SDR equipment to ensure accurate IQ sampling, handling environmental variability between indoor and outdoor measurement sessions, and ensuring robust DC removal. Additional complexities arose from accurately placing and verifying pilot tones, necessary for reliable channel estimation and SINR calculation.
 
----
+## Example Use
 
-## Loading Example
+### Load Data
 
 Below is a simple example showing how to load and access samples from the dataset, including extraction of the pilot subcarriers.
 
@@ -138,7 +141,7 @@ pilot_values = third_symbol[pilot_indices]
 print('Pilot indices:', pilot_indices)
 print('Pilot values:', pilot_values)
 ```
-## CustomDataset for PyTorch
+### CustomDataset
 
 A CustomDataset needs to be defined specifically in a file named `config.py`.
 
