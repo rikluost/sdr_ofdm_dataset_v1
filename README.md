@@ -125,23 +125,15 @@ dataset = torch.load('custom_dataset.pth')
 pdsch_iq, labels, sinr = dataset[0]
 
 print(f'PDSCH IQ shape: {pdsch_iq.shape}')      
-# (num_symbols=14, FFT_size=128)
+# (num_symbols=14, FFT_size=128), includes offsets and DC
 
 print(f'Labels shape: {labels.shape}')          
 # ( modulated resource elements=1400, bits_per_TTI=4)
 
 print(f'SINR: {sinr}')                          
 # scalar (dB)
-
-# Example: Extract pilot subcarriers from 3rd OFDM symbol
-third_symbol = pdsch_iq[2]                      # shape: (102,)
-pilot_indices = list(range(0, 102, 8))
-if pilot_indices[-1] != 101:
-    pilot_indices.append(101)
-pilot_values = third_symbol[pilot_indices]
-print('Pilot indices:', pilot_indices)
-print('Pilot values:', pilot_values)
 ```
+
 ### CustomDataset
 
 A CustomDataset needs to be defined specifically in a file named `config.py`.
