@@ -12,12 +12,12 @@ Neural network-based receivers are increasingly important research direction, en
 
 ## Measurement Setup
 
-Measurements were conducted using an SDR system operating at a center frequency of 435 MHz. Data acquisition involved a stationary transmitter antenna and a mobile receiver antenna moving indoors and outdoors in non-line-of-sight environments.
+Measurements were conducted using an SDR system. Data acquisition involved a stationary transmitter antenna and a mobile receiver antenna moving indoors and outdoors in non-line-of-sight environments.
 
-Hardware: SDR radio, antennas separated by coaxial cables
-Center frequency: 435 MHz
-Channel: Real-world indoor fading, measured under practical conditions
-OFDM parameters: FFT size 128, 102 active subcarriers, 16-QAM modulation, cyclic prefix 6 samples. 
+- Hardware: SDR radio, antennas separated by coaxial cables
+- Center frequency: 435 MHz
+- Channel: Real-world indoor fading, measured under practical conditions
+- OFDM parameters: FFT size 128, 102 active subcarriers, 16-QAM modulation, cyclic prefix 6 samples. 
 
 The OFDM parameters were chosen based on licensing constraints, computational feasibility, and transmit power limitations. The dataset consists of approximately 1000 TTIs, each capturing realistic channel variations, and took around 5 minutes to generate and process using SDR equipment and data processing pipelines.
 
@@ -36,27 +36,28 @@ Sample structure (per TTI):
 
 ```
 
--------------------------------------------------------------------------------
-| Component       | Shape          | Description                              |
-|-----------------|----------------|------------------------------------------|
-|  pdsch_iq       |  [14, 128]     | Full DFT output (includes DC, offsets)   |
-| ├─   Used       |  [14, 101]     | Active subcarriers (DC & offsets removed)|
-| └─   Pilots     |  3rd symbol    | indices 0, 8, 16, ..., 96, 101           |
-|-----------------|----------------|------------------------------------------|
-|   labels        |  [1400, 4]     | transmitted bits                         |
-|-----------------|----------------|------------------------------------------|
-|   sinr          |  [1]           | SINR (dB)                                |
--------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+| Component       | Shape          | Description                                |
+|-----------------|----------------|--------------------------------------------|
+|  pdsch_iq       |  [14, 128]     | Full DFT output (includes DC, offsets)     |
+| ├─   Used       |  [14, 101]     | Active subcarriers (DC & offsets removed)  |
+| └─   Pilots     |                | 3rd symbol, indices 0, 8, 16, ..., 96, 101 |
+|-----------------|----------------|--------------------------------------------|
+|   labels        |  [1400, 4]     | transmitted bits                           |
+|-----------------|----------------|--------------------------------------------|
+|   sinr          |  [1]           | SINR (dB)                                  |
+---------------------------------------------------------------------------------
 ```
-
 
 #### Calculations for number of elements in each field
 
+Few calculations to help verifuing correct processing:
+
 - n_s is the number of symbols in TTI = 128 * 14 = 1792
-- n_offset is the number of unmodulated subcarriers on both sides = 13
+- n_offset is the number of unmodulated subcarriers on both sides of the signal = 13
 - n_subcarriers is the number of modulated subcarriers = n_s-(2*n_offset) = 102 
 - n_DC is the number of DC symbols = 14
-- n_pilots is the number of pilots is = 14
+- n_pilots is the number of pilots = 14
 - n_mod_symbols is the number of modulated symbols in TTI = 102 * 14 - n_pilots - n_DC = 1400
 - Qm is the number of bits per symbol = 4 (i.e. 16-QAM)
 - n_bits is the number of bits per TTI i.e. labels in TTI = n_mod_symbols * Qm = 1400 * 4 = 5600 
