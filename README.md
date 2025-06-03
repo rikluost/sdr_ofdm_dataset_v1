@@ -2,23 +2,22 @@
 
 ## Abstract
 
-We introduce a measured radio channel dataset designed for training and evaluating neural network-based wireless receivers, specifically optimized for OFDM systems operating at 435 MHz. This dataset includes IQ symbols after Discrete Fourier Transform (DFT), the corresponding transmitted bitstreams (labels), and per-transmission SINR metrics. Captured in realistic indoor mostly non-line-of-sight conditions using Software-Defined Radio (SDR) equipment, the dataset provides resources for validating neural network architectures against practical channel effects.
+We introduce a measured radio channel dataset designed for training and evaluating neural network-based wireless receivers, tailored for OFDM systems. This dataset includes IQ symbols after Discrete Fourier Transform (DFT) in the receiver, the corresponding transmitted bitstreams (labels), and per-transmission SINR metrics. Captured in realistic indoor mostly non-line-of-sight conditions using Software-Defined Radio (SDR) equipment, the dataset provides resources for validating neural network architectures against practical channel effects.
 
 Keywords: Neural Networks, OFDM, IQ Data, Channel Measurement, SINR, Software-Defined Radio
 
 ## Introduction
 
-Neural network-based receivers are increasingly important for robust signal demodulation and accurate channel estimation. However, practical datasets capturing authentic mobile channel dynamics, particularly under non-line-of-sight conditions, remain scarce. This dataset addresses this gap by providing realistically measured IQ samples collected via mobile SDR antennas moving at pedestrian speeds.
+Neural network-based receivers are increasingly important research direction, enabling more robust signal demodulation and improving channel estimation. However, practical datasets capturing authentic mobile channel dynamics, particularly under non-line-of-sight conditions, remain scarce. This dataset addresses this gap by providing realistically measured IQ samples collected indoors via mobile SDR antennas moving at pedestrian speeds.
 
 ## Measurement Setup
 
 Measurements were conducted using an SDR system operating at a center frequency of 435 MHz. Data acquisition involved a stationary transmitter antenna and a mobile receiver antenna moving indoors and outdoors in non-line-of-sight environments.
 
-Hardware: SDR radio moving at speed < 3 m/s
+Hardware: SDR radio, antennas separated by coaxial cables
 Center frequency: 435 MHz
-Cyclic prefix: 6 samples
-Channel: Real-world fading, measured under practical indoor/outdoor conditions
-OFDM parameters: FFT size 128, 102 active subcarriers, 16-QAM modulation. 
+Channel: Real-world indoor fading, measured under practical conditions
+OFDM parameters: FFT size 128, 102 active subcarriers, 16-QAM modulation, cyclic prefix 6 samples. 
 
 The OFDM parameters were chosen based on licensing constraints, computational feasibility, and transmit power limitations. The dataset consists of approximately 1000 TTIs, each capturing realistic channel variations, and took around 5 minutes to generate and process using SDR equipment and data processing pipelines.
 
@@ -32,17 +31,13 @@ The dataset is structured as a PyTorch CustomDataset, facilitating seamless inte
   - Labels: `torch.float32` (bitstream, typically 0 or 1)
   - SINR: `torch.float64` (in dB)
 
-
-
 ### Field Definitions
 Sample structure (per TTI):
 
 ```
 
 | Component       | Shape          | Description                              |
-
 |-----------------|----------------|------------------------------------------|
-
 |  pdsch_iq       |  [14, 128]     | Full DFT output (includes DC, offsets)   |
 
 | ├─   Used       |  [14, 101]     | Active subcarriers (DC & offsets removed)|
