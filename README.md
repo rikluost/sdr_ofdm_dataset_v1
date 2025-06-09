@@ -53,19 +53,6 @@ Sample structure (per TTI):
 ---------------------------------------------------------------------------------
 ```
 
-#### Calculations for number of elements in each field
-
-Few calculations to help verify correct processing of the data:
-
-- n_s is the number of symbols in TTI = 128 * 14 = 1792
-- n_offset is the number of unmodulated subcarriers on both sides of the signal = 13
-- n_subcarriers is the number of modulated subcarriers = n_s-(2*n_offset) = 102 
-- n_DC is the number of DC symbols = 14
-- n_pilots is the number of pilots = 14
-- n_mod_symbols is the number of modulated symbols in TTI = 102 * 14 - n_pilots - n_DC = 1400
-- Qm is the number of bits per symbol = 4 (i.e. 16-QAM)
-- n_bits is the number of bits in a TTI = n_mod_symbols * Qm = 1400 * 4 = 5600 
-
 #### Pilot Information
 - Pilots are present only in the 3rd OFDM symbol (index 2).
 - Pilots are placed on every 8th subcarrier, **plus the last subcarrier (index 101) is always included as a pilot** for full-band coverage.  
@@ -86,8 +73,18 @@ Figure 1 illustrates the structure of the OFDM Transmission Time Interval (TTI) 
 
 Fig 1. Visualization of the TTI structure. (Purple: unmodulated, green: pilots, yellow: DC)
 
-The OFDM-mask is populated with known pilot symbols and the modulated bitstream. Figure 2 visualizes an OFDM block fully prepared and ready for transmission, indicating both modulated and unmodulated subcarriers, DC, and embedded pilots within the structure.
+Few calculations to help verify correct processing of the data:
 
+- n_s is the number of symbols in TTI = 128 * 14 = 1792
+- n_offset is the number of unmodulated subcarriers on both sides of the signal = 13
+- n_subcarriers is the number of modulated subcarriers = n_s-(2*n_offset) = 102 
+- n_DC is the number of DC symbols = 14
+- n_pilots is the number of pilots = 14
+- n_mod_symbols is the number of modulated symbols in TTI = 102 * 14 - n_pilots - n_DC = 1400
+- Qm is the number of bits per symbol = 4 (i.e. 16-QAM)
+- n_bits is the number of bits in a TTI = n_mod_symbols * Qm = 1400 * 4 = 5600 
+
+The OFDM-mask is populated with known pilot symbols and the modulated bitstream. Figure 2 visualizes an OFDM block fully prepared and ready for transmission, indicating both modulated and unmodulated subcarriers, DC, and embedded pilots within the structure.
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_blockmod.png)
 
