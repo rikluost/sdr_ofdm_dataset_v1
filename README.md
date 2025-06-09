@@ -104,7 +104,7 @@ Upon reception, the received signal undergoes synchronization followed by a Disc
 
 Fig 4. Visualization of received TTI after over the air transmission and syncronization.
 
-Figure 5 shows the Power Spectral Density (PSD) of the received time-domain signal, illustrating channel-induced distortions and noise characteristics after over-the-air transmission.
+Figure 5 shows the Power Spectral Density (PSD) of the received time-domain signal, illustrating channel-induced distortions in frequency domain after over-the-air transmission.
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_RX.png)
 
