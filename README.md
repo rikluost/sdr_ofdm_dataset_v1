@@ -21,6 +21,8 @@ Data acquisition was conducted using an SDR platform at pedestrian speeds to sim
 
 Each dataset instance captures channel variations across approximately 1000 Transmission Time Intervals (TTIs). The OFDM parameters were chosen based on licensing constraints, computational feasibility, and transmit power limitations. The dataset took around 5 minutes to generate and process using SDR equipment and data processing pipelines.
 
+Time-domain synchronization was achieved by identifying the symbol index with maximum correlation as the starting point for each TTI. SINR values were estimated by comparing the average power of the modulated received symbols against the average power observed in unmodulated signal preluding each modulated TTI.
+
 ## Dataset Structure 
 
 The dataset is structured as a PyTorch CustomDataset, facilitating seamless integration into deep learning workflows.
@@ -101,11 +103,6 @@ The PSD of the received signal is shown below.
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_RX.png)
 
 Fig 5. PSD of a received TTI.
-
-
-## Challenges
-
-Key challenges during dataset creation included precise synchronization of SDR equipment to ensure accurate IQ sampling, handling environmental variability between indoor and outdoor measurement sessions, and ensuring robust DC removal. Additional complexities arose from accurately placing and verifying pilot tones, necessary for reliable channel estimation and SINR calculation.
 
 ## Example Use
 
