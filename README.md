@@ -1,10 +1,10 @@
-# Simulated Radio Channel Dataset for NN-Based Receivers
+# Measured Radio Channel Dataset for validation of OFDM receivers
 
 ## Abstract
 
-This dataset provides realistic IQ samples from OFDM signals measured using Software-Defined Radio (SDR) equipment. Specifically designed for training and evaluating neural network-based wireless receivers, the data includes received IQ symbols post-Discrete Fourier Transform (DFT), associated transmitted bitstreams (labels), and corresponding SINR measurements. Captured in practical indoor and outdoor non-line-of-sight (NLOS) scenarios at pedestrian speeds, this dataset addresses a gap by providing real-world channel dynamics e.g. for robust NN-based receiver validation.
+This dataset provides realistic IQ samples from OFDM signals measured using Software-Defined Radio (SDR) equipment. Specifically designed for training and evaluating neural network-based wireless receivers, the data includes received IQ symbols post-Discrete Fourier Transform (DFT), associated transmitted bitstreams (labels), and corresponding SINR measurements. Captured in practical indoor and outdoor non-line-of-sight (NLOS) scenarios at pedestrian speeds, this dataset addresses a gap by providing real-world channel dynamics e.g. for robust receiver validation.
 
-Keywords: Neural Networks, OFDM, IQ Data, Channel Measurement, SINR, Software-Defined Radio, SDR
+Keywords: OFDM, IQ Data, Channel Measurement, SINR, SDR
 
 ## Introduction
 
@@ -17,7 +17,9 @@ Data acquisition was conducted using an SDR platform at pedestrian speeds to sim
 - Hardware: SDR radio, antennas separated by coaxial cables
 - Center frequency: 435 MHz
 - Channel: Real-world indoor fading at slow speed, measured under practical conditions.
-- OFDM parameters: FFT size 128, 101 subcarriers including DC, 16-QAM modulation, cyclic prefix 6 samples. 
+- OFDM parameters: FFT size 128, 101 subcarriers including DC, 
+- Modulation: 16-QAM modulation, 
+- Cyclic prefix 6 samples
 
 Each dataset instance captures channel variations across approximately 1000 Transmission Time Intervals (TTIs). The OFDM parameters were chosen based on licensing constraints, computational feasibility, and transmit power limitations. The dataset took around 5 minutes to generate and process using SDR equipment and data processing pipelines.
 
@@ -53,7 +55,7 @@ Sample structure (per TTI):
 ---------------------------------------------------------------------------------
 ```
 
-#### Pilot Information
+### Pilot Information
 - Pilots are present only in the 3rd OFDM symbol (index 2).
 - Pilots are placed on every 8th subcarrier, **plus the last subcarrier (index 101) is always included as a pilot** for full-band coverage.  
   - i.e. pilot indices are: 0, 8, 16, ..., 96, 101
