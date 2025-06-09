@@ -2,24 +2,24 @@
 
 ## Abstract
 
-We introduce a measured radio channel dataset designed for training and evaluating neural network-based wireless receivers, tailored for OFDM systems. This dataset includes IQ symbols after Discrete Fourier Transform (DFT) in the receiver, the corresponding transmitted bitstreams (labels), and per-transmission SINR metrics. Captured in realistic indoor mostly non-line-of-sight conditions using Software-Defined Radio (SDR) equipment, the dataset provides resources for validating neural network architectures against practical channel effects.
+This dataset provides real IQ samples from OFDM signals measured using Software-Defined Radio (SDR) equipment. Specifically designed for training and evaluating neural network-based wireless receivers, the data includes received IQ symbols post-Discrete Fourier Transform (DFT), associated transmitted bitstreams (labels), and corresponding SINR measurements. Captured in practical indoor and outdoor non-line-of-sight (NLOS) scenarios at pedestrian speeds, this dataset addresses a significant gap by providing real-world channel dynamics for robust NN validation.
 
-Keywords: Neural Networks, OFDM, IQ Data, Channel Measurement, SINR, Software-Defined Radio
+Keywords: Neural Networks, OFDM, IQ Data, Channel Measurement, SINR, Software-Defined Radio, SDR
 
 ## Introduction
 
-Neural network-based receivers are increasingly important research direction, enabling more robust signal demodulation and improving channel estimation. However, practical datasets capturing authentic mobile channel dynamics, particularly under non-line-of-sight conditions, remain scarce. This dataset addresses this gap by providing realistically measured IQ samples collected indoors via mobile SDR antennas moving at pedestrian speeds.
+Neural networks have emerged as powerful tools for enhancing wireless receivers, significantly improving demodulation robustness and accuracy. However, publicly available datasets capturing real-world radio channel conditions, especially under NLOS, remain limited. This dataset fills that gap by offering measured IQ samples collected with mobile SDR equipment in realistic propagation environments.
 
 ## Measurement Setup
 
-Measurements were conducted using an SDR system. Data acquisition involved a stationary transmitter antenna and a mobile receiver antenna moving indoors and outdoors in non-line-of-sight environments.
+Data acquisition was conducted using an SDR platform at pedestrian speeds to simulate user mobility.
 
 - Hardware: SDR radio, antennas separated by coaxial cables
 - Center frequency: 435 MHz
-- Channel: Real-world indoor fading, measured under practical conditions
-- OFDM parameters: FFT size 128, 102 active subcarriers, 16-QAM modulation, cyclic prefix 6 samples. 
+- Channel: Real-world indoor fading at slow speed, measured under practical conditions.
+- OFDM parameters: FFT size 128, 101 subcarriers including DC, 16-QAM modulation, cyclic prefix 6 samples. 
 
-The OFDM parameters were chosen based on licensing constraints, computational feasibility, and transmit power limitations. The dataset consists of approximately 1000 TTIs, each capturing realistic channel variations, and took around 5 minutes to generate and process using SDR equipment and data processing pipelines.
+Each dataset instance captures channel variations across approximately 1000 Transmission Time Intervals (TTIs). The OFDM parameters were chosen based on licensing constraints, computational feasibility, and transmit power limitations. The dataset took around 5 minutes to generate and process using SDR equipment and data processing pipelines.
 
 ## Dataset Structure 
 
@@ -35,7 +35,6 @@ The dataset is structured as a PyTorch CustomDataset, facilitating seamless inte
 Sample structure (per TTI):
 
 ```
-
 ---------------------------------------------------------------------------------
 | Component       | Shape          | Description                                |
 |-----------------|----------------|--------------------------------------------|
@@ -51,7 +50,7 @@ Sample structure (per TTI):
 
 #### Calculations for number of elements in each field
 
-Few calculations to help verifuing correct processing:
+Few calculations to help verify correct processing of the data:
 
 - n_s is the number of symbols in TTI = 128 * 14 = 1792
 - n_offset is the number of unmodulated subcarriers on both sides of the signal = 13
@@ -60,7 +59,7 @@ Few calculations to help verifuing correct processing:
 - n_pilots is the number of pilots = 14
 - n_mod_symbols is the number of modulated symbols in TTI = 102 * 14 - n_pilots - n_DC = 1400
 - Qm is the number of bits per symbol = 4 (i.e. 16-QAM)
-- n_bits is the number of bits per TTI i.e. labels in TTI = n_mod_symbols * Qm = 1400 * 4 = 5600 
+- n_bits is the number of bits in a TTI = n_mod_symbols * Qm = 1400 * 4 = 5600 
 
 #### Pilot Information
 - Pilots are present only in the 3rd OFDM symbol (index 2).
@@ -69,31 +68,39 @@ Few calculations to help verifuing correct processing:
 
 ## Dataset Visualizations
 
-Figures 1 and 2 illustrate transmitted and received signal PSD. Figures 3, 4, and 5 illustrate the TTI mask, populated TTI, and received TTI after over-the-air transmission and synchronization correspondingly.
+### Transmission
 
-### Power Spectral Density
-
-![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_TX.png)
-
-Fig 1. PSD of a transmitted TTI.
-
-![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_RX.png)
-
-Fig 2. PSD of a received TTI.
-
-### TTI Structure
+Figure 1 below shows the shape of the TTI-block, which is 128 subcarriers in frequency domain, where of 101 are modulated. Pilot positions are marked in green. This in the code context is called OFDM-mask.
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_blockmask.png)
 
-Fig 3. Visualization of the TTI structure. (Purple: unmodulated, green: pilots, yellow: DC)
+Fig 1. Visualization of the TTI structure. (Purple: unmodulated, green: pilots, yellow: DC)
+
+The OFDM-mask is then populated with known pilot symbols. Figure 2 illustrates an OFDM block ready for transmission.
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_blockmod.png)
 
-Fig 4. Visualization of fully populated TTI.
+Fig 2. Visualization of fully populated TTI.
+
+After transforming the populated TTI with IFFT, the data is normalized to suite the SDR radio. Figure 3 shows the Power Spectral Density (PSD) of the signal.
+
+![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_TX.png)
+
+Fig 3. PSD of a transmitted TTI.
+
+### Reception
+
+After reception, the signal is synchronized and DFT is applied. The received TTI is visualized below in Figure 4. 
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_block_RX.png)
 
-Fig 5. Visualization of received TTI after over the air transmission and syncronization.
+Fig 4. Visualization of received TTI after over the air transmission and syncronization.
+
+The PSD of the received signal is shown below.
+
+![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_RX.png)
+
+Fig 5. PSD of a received TTI.
 
 
 ## Challenges
