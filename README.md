@@ -2,7 +2,7 @@
 
 ## Abstract
 
-This dataset provides real IQ samples from OFDM signals measured using Software-Defined Radio (SDR) equipment. Specifically designed for training and evaluating neural network-based wireless receivers, the data includes received IQ symbols post-Discrete Fourier Transform (DFT), associated transmitted bitstreams (labels), and corresponding SINR measurements. Captured in practical indoor and outdoor non-line-of-sight (NLOS) scenarios at pedestrian speeds, this dataset addresses a significant gap by providing real-world channel dynamics for robust NN validation.
+This dataset provides realistic IQ samples from OFDM signals measured using Software-Defined Radio (SDR) equipment. Specifically designed for training and evaluating neural network-based wireless receivers, the data includes received IQ symbols post-Discrete Fourier Transform (DFT), associated transmitted bitstreams (labels), and corresponding SINR measurements. Captured in practical indoor and outdoor non-line-of-sight (NLOS) scenarios at pedestrian speeds, this dataset addresses a gap by providing real-world channel dynamics e.g. for robust NN-based receiver validation.
 
 Keywords: Neural Networks, OFDM, IQ Data, Channel Measurement, SINR, Software-Defined Radio, SDR
 
@@ -22,6 +22,9 @@ Data acquisition was conducted using an SDR platform at pedestrian speeds to sim
 Each dataset instance captures channel variations across approximately 1000 Transmission Time Intervals (TTIs). The OFDM parameters were chosen based on licensing constraints, computational feasibility, and transmit power limitations. The dataset took around 5 minutes to generate and process using SDR equipment and data processing pipelines.
 
 Time-domain synchronization was achieved by identifying the symbol index with maximum correlation as the starting point for each TTI. SINR values were estimated by comparing the average power of the modulated received symbols against the average power observed in unmodulated signal preluding each modulated TTI.
+
+The selected center-frequency (435 MHz) is constrained by licensing requirements and is relatively low compared to typical real-world wireless communication systems. This lower frequency leads to a longer coherence time and wider coherence bandwidth compared to higher center-frequencies.
+
 
 ## Dataset Structure 
 
