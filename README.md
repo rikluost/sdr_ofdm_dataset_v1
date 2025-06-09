@@ -119,13 +119,16 @@ dataset = torch.load('custom_dataset.pth')
 # Get the first sample
 pdsch_iq, labels, sinr = dataset[0]
 
-print(f'PDSCH IQ shape: {pdsch_iq.shape}')      
+print(f'PDSCH IQ shape: {pdsch_iq.shape}')
+PDSCH IQ shape: [14,128]      
 # (num_symbols=14, FFT_size=128), includes offsets and DC
 
 print(f'Labels shape: {labels.shape}')          
+Labels shape: [1400,4]
 # ( modulated resource elements=1400, bits_per_TTI=4)
 
 print(f'SINR: {sinr}')                          
+SINR: 23
 # scalar (dB)
 ```
 
