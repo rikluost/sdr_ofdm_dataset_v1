@@ -75,19 +75,21 @@ Few calculations to help verify correct processing of the data:
 
 ### Transmission
 
-Figure 1 below shows the shape of the TTI-block, which is 128 subcarriers in frequency domain, where of 101 are modulated. Pilot positions are marked in green. This in the code context is called OFDM-mask.
+Figure 1 illustrates the structure of the OFDM Transmission Time Interval (TTI) block, comprising 128 frequency-domain subcarriers, of which 101 are modulated. The remaining subcarriers—including the DC component (unmodulated)—are not used for data transmission. In the time-domain dimension, each TTI consists of 14 OFDM symbols, as shown in the visualization. Pilot subcarrier positions, essential for channel estimation, are highlighted in green. Within the provided code context, this representation is referred to as the "OFDM-mask."
+
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_blockmask.png)
 
 Fig 1. Visualization of the TTI structure. (Purple: unmodulated, green: pilots, yellow: DC)
 
-The OFDM-mask is then populated with known pilot symbols. Figure 2 illustrates an OFDM block ready for transmission.
+The OFDM-mask is populated with known pilot symbols and the modulated bitstream. Figure 2 visualizes an OFDM block fully prepared and ready for transmission, indicating both modulated and unmodulated subcarriers, DC, and embedded pilots within the structure.
+
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_blockmod.png)
 
 Fig 2. Visualization of fully populated TTI.
 
-After transforming the populated TTI with IFFT, the data is normalized to suite the SDR radio. Figure 3 shows the Power Spectral Density (PSD) of the signal.
+After populating the TTI and applying the Inverse Fast Fourier Transform (IFFT), the resulting time-domain data is normalized to meet the requirements of the SDR hardware. Figure 3 displays the Power Spectral Density (PSD) of the normalized transmit signal, illustrating the spectral characteristics of the transmitted OFDM waveform.
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_TX.png)
 
@@ -95,13 +97,13 @@ Fig 3. PSD of a transmitted TTI.
 
 ### Reception
 
-After reception, the signal is synchronized and DFT is applied. The received TTI is visualized below in Figure 4. 
+Upon reception, the received signal undergoes synchronization followed by a Discrete Fourier Transform (DFT). The resulting frequency-domain representation of the received TTI is illustrated in Figure 4, highlighting the effects of the radio channel and synchronization accuracy.
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_block_RX.png)
 
 Fig 4. Visualization of received TTI after over the air transmission and syncronization.
 
-The PSD of the received signal is shown below.
+Figure 5 shows the Power Spectral Density (PSD) of the received time-domain signal, illustrating channel-induced distortions and noise characteristics after over-the-air transmission.
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/PSD_RX.png)
 
