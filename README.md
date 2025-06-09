@@ -70,6 +70,10 @@ Few calculations to help verify correct processing of the data:
 - Pilots are present only in the 3rd OFDM symbol (index 2).
 - Pilots are placed on every 8th subcarrier, **plus the last subcarrier (index 101) is always included as a pilot** for full-band coverage.  
   - i.e. pilot indices are: 0, 8, 16, ..., 96, 101
+- pilot signals: `[-0.7-0.7j, -0.7+0.7j,  0.7-0.7j,  0.7+0.7j,
+        -0.7-0.7j, -0.7+0.7j,  0.7-0.7j,  0.7+0.7j,
+        -0.7-0.7j, -0.7+0.7j,  0.7-0.7j,  0.7+0.7j,
+        -0.7-0.7j, -0.7+0.7j]`
 
 ## Dataset Visualizations
 
@@ -125,15 +129,15 @@ dataset = torch.load('custom_dataset.pth')
 pdsch_iq, labels, sinr = dataset[0]
 
 print(f'PDSCH IQ shape: {pdsch_iq.shape}')
-PDSCH IQ shape: [14,128]      
+> PDSCH IQ shape: [14,128]      
 # (num_symbols=14, FFT_size=128), includes offsets and DC
 
 print(f'Labels shape: {labels.shape}')          
-Labels shape: [1400,4]
+> Labels shape: [1400,4]
 # ( modulated resource elements=1400, bits_per_TTI=4)
 
 print(f'SINR: {sinr}')                          
-SINR: 23
+> SINR: 23
 # scalar (dB)
 ```
 
@@ -169,6 +173,3 @@ class CustomDataset(Dataset):
 ## References
 
 Paszke, Adam, Sam Gross, Francisco Massa, Adam Lerer, James Bradbury, Gregory Chanan, Trevor Killeen, et al. “PyTorch: An Imperative Style, High-Performance Deep Learning Library.” In Advances in Neural Information Processing Systems 32, edited by H. Wallach, H. Larochelle, A. Beygelzimer, F. dAlché-Buc, E. Fox, and R. Garnett, 8024–35. Curran Associates, Inc., 2019. http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf.
-
-
-
