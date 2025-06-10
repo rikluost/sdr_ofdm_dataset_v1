@@ -21,13 +21,13 @@ The RF parameters, such as transmit power, frequency and bandwidth, were chosen 
 - Modulation: 16-QAM modulation, 
 - Cyclic prefix 6 samples
 
-The dataset consists of approximately 1000 Transmission Time Intervals (TTIs), each instance capturing the channel variations over time and frequency. Data acquisition was conducted at pedestrian speeds to simulate slow user mobility. Time-domain synchronization was achieved by identifying the symbol index with maximum correlation as the starting point for each TTI. SINR values were estimated simply by comparing the average power of the modulated received symbols against the average power observed in unmodulated signal preluding each modulated TTI. 
+The dataset consists of approximately 1000 Transmission Time Intervals (TTIs), each instance capturing the channel variations over time and frequency. Data acquisition was conducted at pedestrian speeds to simulate some user mobility. Time-domain synchronization was achieved by identifying the symbol index with maximum correlation as the starting point for each TTI. SINR values were estimated simply by comparing the average power of the modulated received symbols against the average power observed in unmodulated signal preluding each modulated TTI. 
 
-It is acknowledged that the selected center-frequency of 435 MHz is relatively low compared to typical real-world wireless communication systems. This lower frequency leads to a longer coherence times and broader coherence bandwidths compared to higher center-frequencies.
+It is acknowledged that the selected center-frequency of 435 MHz is relatively low compared to typical real-world wireless communication systems. This lower frequency leads to a longer coherence times and broader coherence bandwidths compared to higher operating center-frequencies.
 
 ## Dataset Structure 
 
-The dataset is structured as a PyTorch CustomDataset, facilitating seamless integration into deep learning workflows.
+The dataset is structured as a PyTorch CustomDataset, facilitating seamless integration into workflows.
 
 - **File format:** PyTorch `.pth` file containing a pickled instance of `CustomDataset`.
 - **Data types:**
