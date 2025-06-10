@@ -12,7 +12,7 @@ OFDM receiver design, whether based on traditional signal processing or machine 
 
 ## Measurement Setup
 
-Data acquisition was conducted using an SDR platform at pedestrian speeds to simulate user mobility.
+The RF parameters, such as transmit power, frequency and bandwidth, were chosen to comply with radio transmit licensing constraints. Main parameters are shown below:
 
 - Hardware: SDR radio, antennas separated by coaxial cables
 - Center frequency: 435 MHz
@@ -21,10 +21,9 @@ Data acquisition was conducted using an SDR platform at pedestrian speeds to sim
 - Modulation: 16-QAM modulation, 
 - Cyclic prefix 6 samples
 
-The dataset consists of approximately 1000 Transmission Time Intervals (TTIs), each instance capturing the channel variations over time and frequency. Time-domain synchronization was achieved by identifying the symbol index with maximum correlation as the starting point for each TTI. SINR values were estimated by comparing the average power of the modulated received symbols against the average power observed in unmodulated signal preluding each modulated TTI. 
+The dataset consists of approximately 1000 Transmission Time Intervals (TTIs), each instance capturing the channel variations over time and frequency. Data acquisition was conducted at pedestrian speeds to simulate slow user mobility. Time-domain synchronization was achieved by identifying the symbol index with maximum correlation as the starting point for each TTI. SINR values were estimated simply by comparing the average power of the modulated received symbols against the average power observed in unmodulated signal preluding each modulated TTI. 
 
-The OFDM parameters, such as transmit power, frequency and bandwidth, were chosen to comply with radio transmit licensing constraints. It is to be noted that due to these restrictions the selected center-frequency (435 MHz) is relatively low compared to typical real-world wireless communication systems. This lower frequency leads to a longer coherence time and wider coherence bandwidth compared to higher center-frequencies.
-
+It is acknowledged that the selected center-frequency of 435 MHz is relatively low compared to typical real-world wireless communication systems. This lower frequency leads to a longer coherence times and broader coherence bandwidths compared to higher center-frequencies.
 
 ## Dataset Structure 
 
@@ -56,7 +55,7 @@ Sample structure (per TTI):
 ### Pilot Information
 - Pilots are present only in the 3rd OFDM symbol (index 2).
 - Pilots are placed on every 8th subcarrier, **plus the last subcarrier (index 101) is always included as a pilot** for full-band coverage.  
-  - i.e. pilot indices are: 0, 8, 16, ..., 96, 101
+- i.e. pilot indices are: 0, 8, 16, ..., 96, 101
 - pilot signals: `[-0.7-0.7j, -0.7+0.7j,  0.7-0.7j,  0.7+0.7j,
         -0.7-0.7j, -0.7+0.7j,  0.7-0.7j,  0.7+0.7j,
         -0.7-0.7j, -0.7+0.7j,  0.7-0.7j,  0.7+0.7j,
@@ -97,7 +96,7 @@ Fig 3. PSD of a transmitted TTI.
 
 ### Reception
 
-Upon reception, the received signal undergoes synchronization followed by a Discrete Fourier Transform (DFT). The resulting frequency-domain representation of the received TTI is illustrated in Figure 4, highlighting the effects of the radio channel and synchronization accuracy.
+Upon reception, the received signal undergoes synchronization followed by a Discrete Fourier Transform (DFT). The resulting frequency-domain representation of the received TTI is illustrated in Figure 4, highlighting the effects of the radio channel. This is also the shape of the IQ data stored in the dataset.
 
 ![alt text](https://github.com/rikluost/sdr_ofdm_dataset_v1/blob/main/pics/OFDM_block_RX.png)
 
