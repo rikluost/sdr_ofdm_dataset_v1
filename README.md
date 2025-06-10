@@ -1,4 +1,4 @@
-# Measured Radio Channel Dataset for validation of OFDM receivers
+# Measured Radio Channel Dataset for OFDM Receiver Validation
 
 ## Abstract
 
